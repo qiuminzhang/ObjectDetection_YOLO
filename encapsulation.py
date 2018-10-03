@@ -143,6 +143,7 @@ def post_process(frame, classes, outs, confThreshold, nmsThreshold):
         width = box[2]
         height = box[3]
         draw_pred(frame, classes, classIds[i], confidences[i], left, top, left + width, top + height)
+    return frame
 
 
 def create_4D_blob(frame, inpWidth, inpHeight):
@@ -164,18 +165,22 @@ def set_input(blob, net):
 
 
 def run_caffe_net_forward(net, names):
+    """
+    :return: The network output is a list of predicted bounding boxes
+    """
     outs = net.forward(names)
     return outs
 
 
 def put_efficiency_information(frame, net):
     """
-    Put efficiency information on the top-right corner of the output. The function getPerfProfile returns the overall
+    Put efficiency information at the top right of the output. The function getPerfProfile returns the overall
     time for inference(t) and the timings for each of the layers(in layersTimes).
     """
     t, _ = net.getPerfProfile()
     label = 'Inference time: %.2f ms' % (t * 1000.0 / cv.getTickFrequency())
     cv.putText(frame, label, (0, 15), cv.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255))
+    return frame
 
 
 def save_output(args, frame, outputFile, vid_writer):
@@ -222,10 +227,10 @@ def main():
 
         # Remove the bounding boxes with low confidence using non-maxima suppression,
         # then draw rectangular boxes with labels on objects.
-        post_process(frame, classes, outs, confThreshold, nmsThreshold)
+        frame = post_process(frame, classes, outs, confThreshold, nmsThreshold)
 
         # Put efficiency information on the top-right corner of the output.
-        put_efficiency_information(frame, net)
+        frame = put_efficiency_information(frame, net)
 
         # Save output
         save_output(args, frame, outputFile, vid_writer)
