@@ -1,4 +1,6 @@
 
+Go to file location
+
 Run the getModels.sh file from command line to download the needed model files
 
 	sudo chmod a+x getModels.sh
@@ -8,5 +10,7 @@ Python:
 Commandline usage for object detection using YOLOv3 
 a single image:
 	python3 object_detection_yolo.py --image=bird.jpg
+	python3 encapsulation.py --image=bird.jpg
 a video file:
 	python3 object_detection_yolo.py --video=run.mp4
+	python3 encapsulation.py --video=run.mp4
