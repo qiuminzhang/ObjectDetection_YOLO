@@ -10,7 +10,9 @@ Python:
 Commandline usage for object detection using YOLOv3 
 a single image:
 	python3 object_detection_yolo.py --image=bird.jpg
+	or
 	python3 encapsulation.py --image=bird.jpg
 a video file:
 	python3 object_detection_yolo.py --video=run.mp4
+	or
 	python3 encapsulation.py --video=run.mp4
